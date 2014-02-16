@@ -38,7 +38,7 @@ For each of these workouts, every client could do a slightly different workout e
 
 Some of the workouts are known as **Named Workouts**. These named workouts are considered benchmarks which clients can use to track their progress over time. An example of a named workout is Cindy:
 
-The use cases for tracking clients' progress can be found here [a relative link](wiki/Progress-Use-Cases)
+The use cases for tracking clients' progress can be found [here](//github.com/williambza/yolo-steel/wiki/Progress-Use-Cases)
 
 > #### Cindy
 > 20 Minute AMRAP:
