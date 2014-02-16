@@ -21,6 +21,7 @@ The domain for the test app is software for a Crossfit gym. The key areas for so
 Each class consists of a number of exercises grouped together into a **Workout**.  Each workout contains a multiple exercises. An exercise consists of a movement, a weight and a number of reps for that exercise.
 
 The exercises within a workout can be structured in a number of ways with different goals for each:
+
 1. For time
   * Here the client has to complete all the exercises as fast as possible
   * The time taken to complete all the exercises in the workout is recorded
