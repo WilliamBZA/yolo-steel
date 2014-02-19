@@ -3,25 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using yolo.Domain.Events;
 
 namespace yolo.Domain
 {
-    public abstract class AggregateRoot
+    public abstract class AggregateRoot<T>
     {
-        protected void ProcessEvent<T>(IDomainEvent<T> domainEvent) where T : class
+        private IList<IDomainEvent<T>> _stateChanges;
+
+        public AggregateRoot()
         {
-            domainEvent.ApplyEventTo(this as T);
-            PersistEvent(domainEvent);
+            _stateChanges = new List<IDomainEvent<T>>();
         }
 
-        protected void ReplayEvent<T>(IDomainEvent<T> domainEvent) where T : class
+        protected void ProcessEvent(IDomainEvent<T> domainEvent)
         {
-            domainEvent.ApplyEventTo(this as T);
+            Apply(domainEvent);
+            _stateChanges.Add(domainEvent);
         }
 
-        private void PersistEvent<T>(IDomainEvent<T> domainEvent)
+        protected void ReplayEvent(IDomainEvent<T> domainEvent)
         {
-            // blah blah, save event somewhere
+            Apply(domainEvent);
+        }
+
+        public void Apply(IDomainEvent<T> domainEvent)
+        {
+            // Not entirely happy with the magic string for Apply, but I don't see it as too much of an evil...
+            GetType().InvokeMember("Apply", System.Reflection.BindingFlags.InvokeMethod, null, this, new[] { domainEvent });
+        }
+
+        public IEnumerable<IDomainEvent<T>> GetStateChangeEvents()
+        {
+            return _stateChanges;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace yolo.Domain
+namespace yolo.Domain.Events
 {
     public class WorkoutCreatedEvent : IDomainEvent<Workout>
     {
@@ -12,12 +12,6 @@ namespace yolo.Domain
         public WorkoutCreatedEvent(string name)
         {
             Name = name;
-        }
-
-        public void ApplyEventTo(Workout instance)
-        {
-            instance.Apply(this);
-
         }
     }
 }
