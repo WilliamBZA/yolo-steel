@@ -12,9 +12,16 @@ namespace yolo.Domain
         private string _name;
         private List<Exercise> _exercises;
 
-        public Workout(string name)
+        // Parameterless constructor implies no domain logic. Merely instantiating up an object.
+        public Workout()
         {
             _exercises = new List<Exercise>();
+        }
+
+        // Using this parameter implies a command to create a new workout. No concept of commands in framework yet, so implied is what we have for now
+        public Workout(string name)
+            : this()
+        {
             ProcessEvent(new WorkoutCreatedEvent(name));
         }
 
@@ -23,12 +30,12 @@ namespace yolo.Domain
             ProcessEvent(new ExerciseAddedEvent(name, reps, prescribedWeight));
         }
 
-        public void Apply(WorkoutCreatedEvent workoutCreatedEvent)
+        protected void Apply(WorkoutCreatedEvent workoutCreatedEvent)
         {
             _name = workoutCreatedEvent.Name;
         }
 
-        public void Apply(ExerciseAddedEvent exerciseAddedEvent)
+        protected void Apply(ExerciseAddedEvent exerciseAddedEvent)
         {
             _exercises.Add(new Exercise(exerciseAddedEvent.Name, exerciseAddedEvent.Reps, exerciseAddedEvent.PrescribedWeight));
         }

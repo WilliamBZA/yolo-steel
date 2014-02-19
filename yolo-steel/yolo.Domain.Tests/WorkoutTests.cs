@@ -38,5 +38,22 @@ namespace yolo.Domain.Tests
 
             Assert.Equal(1, changes.Count(e => e.GetType() == typeof(ExerciseAddedEvent)));
         }
+
+        [Fact]
+        public void Replaying_A_WorkoutCreatedEvent_Sets_The_WorkoutName_Correctly()
+        {
+            // Arrange
+            var events = new[] { new WorkoutCreatedEvent("Create my mofo workout please") };
+            var workoutRoot = new Workout();
+
+            // Act
+            workoutRoot.ReplayFromEvents(events);
+
+            // Assert
+            // OMG, am I really forced to use reflection to test this? Surely there's another indicator that the state is valid without
+            // exposing a public property on the aggregate?
+            var field = workoutRoot.GetType().GetField("_name", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(workoutRoot) as string;
+            Assert.Equal("Create my mofo workout please", field);
+        }
     }
 }
